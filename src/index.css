@@ -10,6 +10,7 @@ html {
 
 body {
 	font-family: "Catamaran", sans-serif;
+	min-height: 100vh;
 }
 
 code {
