@@ -9,8 +9,7 @@ const MenuItem = ({ title, imageUrl, size }) => {
 		<div
 			className={`${size} menu-item`}
 			onClick={() => {
-				console.log("Hello");
-				navigate("./hats");
+				navigate("./shop");
 			}}
 		>
 			<div
