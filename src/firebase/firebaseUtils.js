@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const firebaseConfig = {
@@ -12,12 +12,25 @@ const firebaseConfig = {
 	measurementId: "G-3HQTXT9BYM",
 };
 
+// Function that takes the object from our authentication library and store it iniside our database
+
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+	// Condition to check if our code is getting back a valid object and not null
+	if (!userAuth) return;
+
+	const docRef = doc(db, "users", `${userAuth.uid}`);
+	console.log(docRef.id);
+
+	const docSnapShot = await getDoc(docRef);
+	console.log(docSnapShot);
+};
+
 const app = initializeApp(firebaseConfig);
 
 // Needed For Google Authentication
 
 export const auth = getAuth(app);
-export const dbfirestore = getFirestore(app);
+export const db = getFirestore(app);
 
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({ prompt: "select_account" });
