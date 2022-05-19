@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, collection, getDoc, addDoc } from "firebase/firestore";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const firebaseConfig = {
@@ -23,12 +23,30 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
 	const docSnapShot = await getDoc(docRef);
 	console.log(docSnapShot);
+
+	// Condition to check if there is data in the documentRefObj
+	if (docSnapShot.exists()) {
+		const { displayName, email } = userAuth;
+		const createdAt = new Date();
+
+		try {
+			await addDoc(collection(db, "users"), {
+				displayName,
+				email,
+				createdAt,
+			});
+			console.log("Document written with ID: ", docRef.id);
+		} catch (error) {
+			console.log("An Error!", error);
+		}
+	}
+
+	return docRef;
 };
 
 const app = initializeApp(firebaseConfig);
 
 // Needed For Google Authentication
-
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
