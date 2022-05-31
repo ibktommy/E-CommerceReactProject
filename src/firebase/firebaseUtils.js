@@ -3,13 +3,13 @@ import { getFirestore, doc, collection, getDoc, addDoc } from "firebase/firestor
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const firebaseConfig = {
-	apiKey: "AIzaSyDTLEO1aaMlimoQjqdOpIESlVf9aX4QJS0",
-	authDomain: "crwn-clothing-atomdev.firebaseapp.com",
-	projectId: "crwn-clothing-atomdev",
-	storageBucket: "crwn-clothing-atomdev.appspot.com",
-	messagingSenderId: "1081870509308",
-	appId: "1:1081870509308:web:8733273d5c79a07cc6e379",
-	measurementId: "G-3HQTXT9BYM",
+	apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+	authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+	projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+	storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+	messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+	appId: process.env.REACT_APP_APP_ID,
+	measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
 // Function that takes the object from our authentication library and store it iniside our database
