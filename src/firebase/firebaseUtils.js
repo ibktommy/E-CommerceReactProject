@@ -25,7 +25,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 	// console.log(docSnapShot);
 
 	// Condition to check if there is data in the documentRefObj
-	if (docSnapShot.exists()) {
+	if (!docSnapShot) {
 		const { displayName, email } = userAuth;
 		const createdAt = new Date();
 
@@ -34,6 +34,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 				displayName,
 				email,
 				createdAt,
+				...additionalData
 			});
 			// console.log("Document written with ID: ", docRef.id);
 		} catch (error) {
