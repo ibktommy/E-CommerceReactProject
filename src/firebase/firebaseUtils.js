@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, collection, getDoc, addDoc } from "firebase/firestore";
+import { getFirestore, getDoc, doc, setDoc } from "firebase/firestore";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const firebaseConfig = {
@@ -15,35 +15,40 @@ const firebaseConfig = {
 // Function that takes the object from our authentication library and store it iniside our database
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
-	// Condition to check if our code is getting back a valid object and not null
+	// Condition to check if our function is getting back a valid object and not null
 	if (!userAuth) return;
 
-	const docRef = doc(db, "users", `${userAuth.uid}`);
-	// console.log(docRef.id);
+	const userRef = doc(db, 'users', userAuth.uid)
 
-	const docSnapShot = await getDoc(docRef);
-	console.log(docSnapShot);
+	const docSnapShot = await getDoc(userRef)
+
+	console.log(docSnapShot)
 
 	// Condition to check if there is data in the documentRefObj
-	if (!docSnapShot.exists) {
+
+	if (docSnapShot.exists) {
 		const { displayName, email } = userAuth;
 		const createdAt = new Date();
 
 		try {
-			await addDoc(collection(db, "users"), {
+			await setDoc(userRef, {
 				displayName,
 				email,
 				createdAt,
 				...additionalData
-			});
-
+			}).then(() => {
+				console.log('Created')
+			}).catch((error) => {
+				console.log('	Not Created')
+			})
 		} catch (error) {
-			console.log("An Error!", error);
+			console.log('Error Creating User', error.message)
 		}
 	}
 
-	return docRef;
-};
+	return docSnapShot
+
+}
 
 const app = initializeApp(firebaseConfig);
 
@@ -54,3 +59,7 @@ export const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({ prompt: "select_account" });
 export const loginWithGoogle = () => signInWithPopup(auth, provider);
+
+
+// Export Our Firebase App
+export default app;

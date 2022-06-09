@@ -9,7 +9,7 @@ import ShopPage from "./pages/shop/shopComponent";
 import Header from "./components/header/headerComponent";
 import RegisterLogin from "./pages/registerLogin/registerLoginComponent";
 import { auth, createUserProfileDocument } from "./firebase/firebaseUtils";
-import { onSnapshot } from 'firebase/firestore'
+// import { onSnapshot } from 'firebase/firestore'
 
 class App extends React.Component {
 	constructor() {
@@ -24,20 +24,10 @@ class App extends React.Component {
 
 	componentDidMount() {
 		this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-			if (userAuth) {
-				const docRef = await createUserProfileDocument(userAuth);
-
-				// Getting the snapshot ob object stored in the database
-				onSnapshot(docRef, (snapShot => {
-					console.log(snapShot)
-				}))
-			}
-
-
-
+			createUserProfileDocument(userAuth)
 			this.setState({ currentUser: userAuth });
 
-			// console.log(user);
+			console.log(userAuth);
 		});
 	}
 
