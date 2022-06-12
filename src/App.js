@@ -26,21 +26,25 @@ class App extends React.Component {
 
 	componentDidMount() {
 		this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-			const userRef = await createUserProfileDocument(userAuth)
+			// Condition to check if useris logged in
+			if (userAuth) {
 
-			onSnapshot(userRef, (doc) => {
-				// console.log('Current Data: ', doc.data())
-				this.setState({
-					currentUser: {
-						id: doc.id,
-						...doc.data()
-					}
-				}, () => {
-					console.log(this.state)
+				const userRef = await createUserProfileDocument(userAuth)
+
+				onSnapshot(userRef, (doc) => {
+					// console.log('Current Data: ', doc.data())
+					this.setState({
+						currentUser: {
+							id: doc.id,
+							...doc.data()
+						}
+					}, () => {
+						console.log(this.state)
+					})
 				})
-			})
-
-			this.setState({ currentUser: userAuth });
+			} else {
+				this.setState({ currentUser: userAuth });
+			}
 		});
 	}
 
