@@ -20,9 +20,20 @@ class RegisterComponent extends Component {
 		};
 	}
 
+	// Function to Handle the Form Submit
+	handleSubmit = async (event) => {
+		event.preventDefault();
+	};
+
 	render() {
 		// Destrcturing Values from the register-Component state
 		const { displayName, email, password, confirmPassword } = this.state;
+
+		// Condition to Check if Passwords match
+		if (password != confirmPassword) {
+			alert("Passwords Do Not Match!");
+			return;
+		}
 		return (
 			<div className="sign-up">
 				<h2 className="title">You have not registered an account?</h2>
@@ -60,7 +71,7 @@ class RegisterComponent extends Component {
 						label="Confirm Password "
 						required
 					/>
-          <CustomButton type='submit'>Click To Register</CustomButton>
+					<CustomButton type="submit">Click To Register</CustomButton>
 				</form>
 			</div>
 		);
