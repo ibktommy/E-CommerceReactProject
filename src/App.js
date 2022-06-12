@@ -2,6 +2,8 @@ import React from "react";
 
 import { Routes, Route } from "react-router-dom";
 
+import { onSnapshot } from 'firebase/firestore'
+
 import "./App.css";
 
 import Homepage from "./pages/homepage/homepageComponents";
@@ -24,10 +26,21 @@ class App extends React.Component {
 
 	componentDidMount() {
 		this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-			createUserProfileDocument(userAuth)
-			this.setState({ currentUser: userAuth });
+			const userRef = await createUserProfileDocument(userAuth)
 
-			console.log(userAuth);
+			onSnapshot(userRef, (doc) => {
+				// console.log('Current Data: ', doc.data())
+				this.setState({
+					currentUser: {
+						id: doc.id,
+						...doc.data()
+					}
+				}, () => {
+					console.log(this.state)
+				})
+			})
+
+			this.setState({ currentUser: userAuth });
 		});
 	}
 

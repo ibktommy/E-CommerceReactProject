@@ -18,11 +18,11 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 	// Condition to check if our function is getting back a valid object and not null
 	if (!userAuth) return;
 
-	const userRef = doc(db, 'users', userAuth.uid)
+	const userRef = doc(db, "users", userAuth.uid);
 
-	const docSnapShot = await getDoc(userRef)
+	const docSnapShot = await getDoc(userRef);
 
-	console.log(docSnapShot)
+	console.log(docSnapShot);
 
 	// Condition to check if there is data in the documentRefObj
 
@@ -35,20 +35,21 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 				displayName,
 				email,
 				createdAt,
-				...additionalData
-			}).then(() => {
-				console.log('Created')
-			}).catch((error) => {
-				console.log('	Not Created')
+				...additionalData,
 			})
+				.then(() => {
+					console.log("Created");
+				})
+				.catch((error) => {
+					console.log("	Not Created");
+				});
 		} catch (error) {
-			console.log('Error Creating User', error.message)
+			console.log("Error Creating User", error.message);
 		}
 	}
 
-	return docSnapShot
-
-}
+	return userRef;
+};
 
 const app = initializeApp(firebaseConfig);
 
@@ -59,7 +60,6 @@ export const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({ prompt: "select_account" });
 export const loginWithGoogle = () => signInWithPopup(auth, provider);
-
 
 // Export Our Firebase App
 export default app;
