@@ -32,14 +32,13 @@ class App extends React.Component {
 				const userRef = await createUserProfileDocument(userAuth)
 
 				onSnapshot(userRef, (doc) => {
-					// console.log('Current Data: ', doc.data())
+
+					// Storing user data in the App
 					this.setState({
 						currentUser: {
 							id: doc.id,
 							...doc.data()
 						}
-					}, () => {
-						console.log(this.state)
 					})
 				})
 			} else {
