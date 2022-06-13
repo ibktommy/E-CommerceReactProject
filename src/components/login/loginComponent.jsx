@@ -5,6 +5,7 @@ import "./loginStyles.scss";
 import FormInput from "../formInput/formInputComponent";
 import CustomButton from "../customButton/customButtonComponent";
 import { loginWithGoogle } from "../../firebase/firebaseUtils";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 class Login extends Component {
 	constructor(props) {
@@ -16,10 +17,21 @@ class Login extends Component {
 		};
 	}
 
-	handleSUbmit = (event) => {
+	handleSUbmit = async (event) => {
 		event.preventDefault();
 
-		this.setState({ email: "", password: "" });
+		// Destructure off the email and password in our state
+		const { email, password } = this.state;
+
+		// Signing In Our User
+		try {
+			const auth = getAuth();
+
+			await signInWithEmailAndPassword(auth, email, password);
+			this.setState({ email: "", password: "" });
+		} catch (error) {
+			console.log("Error Signing in User: ", error);
+		}
 	};
 
 	handleChange = (event) => {

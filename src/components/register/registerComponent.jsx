@@ -7,7 +7,7 @@ import CustomButton from "../customButton/customButtonComponent";
 
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
-import { auth, createUserProfileDocument } from "../../firebase/firebaseUtils";
+import { createUserProfileDocument } from "../../firebase/firebaseUtils";
 
 class RegisterComponent extends Component {
 	constructor() {
