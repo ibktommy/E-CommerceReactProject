@@ -22,8 +22,6 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
 	const docSnapShot = await getDoc(userRef);
 
-	console.log(docSnapShot);
-
 	// Condition to check if there is data in the documentRefObj
 
 	if (docSnapShot.exists) {

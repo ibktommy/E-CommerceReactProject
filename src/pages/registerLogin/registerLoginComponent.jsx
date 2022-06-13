@@ -6,7 +6,7 @@ import Login from "../../components/login/loginComponent";
 import Register from '../../components/register/registerComponent'
 
 const RegisterLogin = () => (
-	<div className="register-login">
+	<div className="sign-in-and-sign-up">
 		<Login />
 		<Register />
 	</div>

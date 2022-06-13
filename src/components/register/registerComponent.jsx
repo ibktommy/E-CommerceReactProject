@@ -5,6 +5,8 @@ import "./registerStyles.scss";
 import FormInput from "../formInput/formInputComponent";
 import CustomButton from "../customButton/customButtonComponent";
 
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
 import { auth, createUserProfileDocument } from "../../firebase/firebaseUtils";
 
 class RegisterComponent extends Component {
@@ -33,27 +35,30 @@ class RegisterComponent extends Component {
 			return;
 		}
 
+		// Signing Up New User into the Firebase Auth Library
 		try {
-			const { user } = await auth.createUserWithEmailAndPassword(
+			const auth = getAuth();
+			const { user } = await createUserWithEmailAndPassword(
+				auth,
 				email,
 				password,
 			);
 
-			await createUserProfileDocument(user, { displayName });
+			createUserProfileDocument(user, { displayName });
 
-			// Clearing out the Form when user register
-			this.setState({
+			// Clearing the Form After Signing Up
+			this.setState = ({
 				displayName: "",
 				email: "",
 				password: "",
 				confirmPassword: "",
 			});
 		} catch (error) {
-			console.error(error);
+			console.log("Error Signing Up: ", error);
 		}
 	};
 
-  // Function that gets called when user is filling the form-input fields
+	// Function that gets called when user is filling the form-input fields
 	handleChange = (event) => {
 		const { name, value } = event.target;
 

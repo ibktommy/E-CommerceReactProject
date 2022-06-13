@@ -2,7 +2,7 @@ import React from "react";
 
 import { Routes, Route } from "react-router-dom";
 
-import { onSnapshot } from 'firebase/firestore'
+import { onSnapshot } from "firebase/firestore";
 
 import "./App.css";
 
@@ -28,19 +28,19 @@ class App extends React.Component {
 		this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
 			// Condition to check if useris logged in
 			if (userAuth) {
-
-				const userRef = await createUserProfileDocument(userAuth)
+				const userRef = await createUserProfileDocument(userAuth);
 
 				onSnapshot(userRef, (doc) => {
-
 					// Storing user data in the App
 					this.setState({
 						currentUser: {
 							id: doc.id,
-							...doc.data()
-						}
-					})
-				})
+							...doc.data(),
+						},
+					});
+
+					console.log(this.state)
+				});
 			} else {
 				this.setState({ currentUser: userAuth });
 			}
@@ -58,7 +58,11 @@ class App extends React.Component {
 				<Routes>
 					<Route exact path="/" element={<Homepage />}></Route>
 					<Route exact path="/shop" element={<ShopPage />}></Route>
-					<Route exact path="/registerLogin" element={<RegisterLogin />}></Route>
+					<Route
+						exact
+						path="/registerLogin"
+						element={<RegisterLogin />}
+					></Route>
 				</Routes>
 			</React.Fragment>
 		);
