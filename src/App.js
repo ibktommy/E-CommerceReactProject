@@ -38,8 +38,6 @@ class App extends React.Component {
 							...doc.data(),
 						},
 					});
-
-					console.log(this.state)
 				});
 			} else {
 				this.setState({ currentUser: userAuth });
