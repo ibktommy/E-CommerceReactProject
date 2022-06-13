@@ -23,17 +23,48 @@ class RegisterComponent extends Component {
 	// Function to Handle the Form Submit
 	handleSubmit = async (event) => {
 		event.preventDefault();
+
+		// Destrcturing Values from the register-Component state
+		const { displayName, email, password, confirmPassword } = this.state;
+
+		// Condition to Check if Passwords match
+		if (password !== confirmPassword) {
+			alert("Passwords Do Not Match!");
+			return;
+		}
+
+		try {
+			const { user } = await auth.createUserWithEmailAndPassword(
+				email,
+				password,
+			);
+
+			await createUserProfileDocument(user, { displayName });
+
+			// Clearing out the Form when user register
+			this.setState({
+				displayName: "",
+				email: "",
+				password: "",
+				confirmPassword: "",
+			});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+  // Function that gets called when user is filling the form-input fields
+	handleChange = (event) => {
+		const { name, value } = event.target;
+
+		this.setState({
+			[name]: value,
+		});
 	};
 
 	render() {
 		// Destrcturing Values from the register-Component state
 		const { displayName, email, password, confirmPassword } = this.state;
-
-		// Condition to Check if Passwords match
-		if (password != confirmPassword) {
-			alert("Passwords Do Not Match!");
-			return;
-		}
 		return (
 			<div className="sign-up">
 				<h2 className="title">You have not registered an account?</h2>
