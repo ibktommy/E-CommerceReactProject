@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { connect } from "react-redux/es/exports";
 
 import { onSnapshot } from "firebase/firestore";
@@ -28,7 +28,7 @@ class App extends React.Component {
 				onSnapshot(userRef, (doc) => {
 					// Storing user data in the App
 					setCurrentUser({
-							id: doc.id,
+						id: doc.id,
 						...doc.data(),
 					});
 				});
@@ -52,7 +52,9 @@ class App extends React.Component {
 					<Route
 						exact
 						path="/registerLogin"
-						element={<RegisterLogin />}
+						element={this.props.currentUser ? <Navigate to='/' /> : <RegisterLogin />}
+						// element={this.props.currentUser ? <Link to='/' /> : <RegisterLogin />}
+						// element={<RegisterLogin />}
 					></Route>
 				</Routes>
 			</React.Fragment>
@@ -60,8 +62,12 @@ class App extends React.Component {
 	}
 }
 
+const mapStateToProps = ({ user }) => ({
+	currentUser: user.currentUser
+})
+
 const mapDispatchToProps = dispatch => ({
 	setCurrentUser: user => dispatch(setCurrentUser(user))
 })
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
