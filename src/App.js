@@ -53,8 +53,6 @@ class App extends React.Component {
 						exact
 						path="/registerLogin"
 						element={this.props.currentUser ? <Navigate to='/' /> : <RegisterLogin />}
-						// element={this.props.currentUser ? <Link to='/' /> : <RegisterLogin />}
-						// element={<RegisterLogin />}
 					></Route>
 				</Routes>
 			</React.Fragment>
