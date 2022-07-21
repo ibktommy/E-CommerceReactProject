@@ -8,6 +8,7 @@ import { auth } from "../../firebase/firebaseUtils";
 
 import "./headerStyle.scss";
 import CartIcon from "../cartIcon/CartIcon";
+import CartDropdown from "../cartDropdown/CartDropdown";
 
 const Header = ({ currentUser }) => (
 	<div className="header">
@@ -31,9 +32,10 @@ const Header = ({ currentUser }) => (
 					LOG IN
 				</Link>
 			)}
+			<CartIcon />
 		</div>
 
-		<CartIcon />
+		<CartDropdown />
 	</div>
 );
 
